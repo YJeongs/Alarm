@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css?family=Gamja+Flower:400');
+
+body {
+    background-color:antiquewhite;
+    font-family: 'Gamja Flower', cursive;
+} 
+
+.battery-container {
+    display:flex;
+    justify-content: right;
+    margin-right: 30px;
+    align-items: center;
+}
+.battery {
+    margin-right: 15px;
+    font-size: 20px; 
+}
+.battery_status {
+    display:flex;
+    width: 50px;
+    height: 20px;
+    padding-left: 3px;
+    border: 2px solid black;
+    border-radius: 2px;
+    align-items:center;
+}
+.battery_status div {
+    background-color: black;
+    margin-right: 3px;
+    width: 10px;
+    height: 15px;
+    border-radius: 2px;
+}
+
+.battery_status .one {
+    background-color: red;
+}
+.battery_status .two {
+    background-color: blue;
+}
+
+.alarm { 
+    background-color:bisque;
+    margin: 0 auto;
+    margin-top: 120px;
+    padding: 10px;
+    padding-bottom: 60px;
+    width: 1000px;
+    box-shadow: 20px 20px 20px grey;
+    border-radius: 20px;
+}
+
+.alarm-container {
+    display: flex;
+    margin: 15px;
+    padding: 10px;
+}
+
+.alarm-container .time {
+    background-color:rgb(255, 240, 223);
+    margin: 20px;
+    width: 600px;
+    height: 280px;
+    border-radius: 15px;
+    border: 2px solid black;
+}
+.alarm-container .time h1 {
+    margin-left: 20px;
+}
+.alarm-container .time h2 {
+    font-size: 50px;
+    text-align: center;
+}
+
+.alarm-container .status {
+    background-color:rgb(255, 240, 223);
+    margin: 15px;
+    width: 400px;
+    height: 280px;
+    border-radius: 15px;
+    border: 2px solid black;
+}
+.alarm-container .status h1 {
+    margin: 20px;
+}
+.alarm-container .status ul {
+    font-size: 30px;
+}
+
+footer {
+    background-color: rgb(255, 233, 207);
+    text-align: center;
+    width: 900px;
+    margin: 0 auto;
+    padding: 2%;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+label {
+    font-size: 20px;
+    margin : 8px;
+}
+
+input {
+    border-radius: 5px;
+}
+
+button {
+    background-color:bisque;
+    font-weight: bold;
+    margin-left: 20px;
+    padding: 6px;
+    border-radius: 8px;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css"/>
+    <script type="text/javascript" src="/main.js" defer></script>
+    <title>Clock</title>
+</head>
+<body>
+    <div class="alarm">
+        <header class="battery-container">
+            <h3 class="battery"></h3>
+            <div class="battery_status">
+                <div class="one"></div>
+                <div class="two"></div>
+                <div class="three"></div>
+                <div class="four"></div>
+                <div class="five"></div>
+            </div>
+        </header>
+        <section class="alarm-container">
+            <div class="time">
+                <h1>현재시간</h1>
+                <h2 class="clock"></h2>
+            </div>
+            <div class="status">
+                <h1>알람현황</h1>
+                <ul id="alarms-list">
+                </ul>
+            </div>
+        </section>
+        <footer>
+            <div class="addalarm">
+                <label for="hour-input">시:</label>
+                <input type="number" id="hour-input" name="hour" min="0" max="23">
+
+                <label for="minute-input">분:</label>
+                <input type="number" id="minute-input" name="minute" min="0" max="59">
+
+                <label for="second-input">초:</label>
+                <input type="number" id="second-input" name="second" min="0" max="59">
+
+                <button id="add-alarm-btn">알람 추가</button>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
