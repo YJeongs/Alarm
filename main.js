@@ -1,79 +1,102 @@
-let clock = document.querySelector(".clock");
-const batteryElement = document.querySelector(".battery");
-const onecolor = document.querySelector('.one');
-const twocolor = document.querySelector('.two');
-const threecolor = document.querySelector('.three');
-const fourcolor = document.querySelector('.four');
-const fivecolor = document.querySelector('.five');
 
-let alarmhour = document.getElementById("hour-input");
-let alarmminute = document.getElementById("minute-input");
-let alarmsecond = document.getElementById("second-input");
-let addAlarmBtn = document.getElementById("add-alarm-btn");
-let alarmsList = document.getElementById("alarms-list");
-let count = 0;
+const clockElement = document.querySelector(".clock"); // 시계를 출력하는 DOM 요소를 선택합니다.
+const batteryElement = document.querySelector(".battery"); // 배터리 잔량을 표시하는 DOM 요소를 선택합니다.
+const timeBGColor = document.querySelector(".time");
 
-var Alarm = {
-    batteryLevel: 100,
+const colors = {
+    one: document.querySelector(".one"), // 배터리 잔량이 19 이하일 때 적용할 배경색을 가진 DOM 요소입니다.
+    two: document.querySelector(".two"), // 배터리 잔량이 39 이하일 때 적용할 배경색을 가진 DOM 요소입니다.
+    three: document.querySelector(".three"), // 배터리 잔량이 59 이하일 때 적용할 배경색을 가진 DOM 요소입니다.
+    four: document.querySelector(".four"), // 배터리 잔량이 79 이하일 때 적용할 배경색을 가진 DOM 요소입니다.
+    five: document.querySelector(".five"), // 배터리 잔량이 100 이하일 때 적용할 배경색을 가진 DOM 요소입니다.
+};
 
-    //현재시간을 출력하는 메서드
-    getTime: function() {
+const { hour: alarmHourInput, minute: alarmMinuteInput, second: alarmSecondInput } = {
+    hour: document.getElementById("hour-input"), // 알람 시간의 시 입력을 받는 DOM 요소를 선택합니다.
+    minute: document.getElementById("minute-input"), // 알람 시간의 분 입력을 받는 DOM 요소를 선택합니다.
+    second: document.getElementById("second-input"), // 알람 시간의 초 입력을 받는 DOM 요소를 선택합니다.
+};
+
+const addAlarmBtn = document.getElementById("add-alarm-btn"); // 알람을 추가하는 버튼을 선택합니다.
+const alarmsList = document.getElementById("alarms-list"); // 알람 목록을 출력하는 DOM 요소를 선택합니다.
+
+const BatteryLevelColors = [
+    { level: 79, color: "bisque" }, // 배터리 잔량이 79 이하일 때 적용할 배경색을 매칭합니다.
+    { level: 59, color: "bisque" }, // 배터리 잔량이 59 이하일 때 적용할 배경색을 매칭합니다.
+    { level: 39, color: "bisque" }, // 배터리 잔량이 39 이하일 때 적용할 배경색을 매칭합니다.
+    { level: 19, color: "bisque" }, // 배터리 잔량이 19 이하일 때 적용할 배경색을 매칭합니다.
+];
+
+const Alarm = {
+    batteryLevel: 100, // 초기 배터리 잔량을 100으로 설정합니다.
+    alarmsCount: 0, // 초기 알람 개수를 0으로 설정합니다.
+    getTime() {
+        // 현재 시간을 얻어와서 시, 분, 초를 추출합니다.
         const time = new Date();
         const hour = time.getHours();
         const minutes = time.getMinutes();
         const seconds = time.getSeconds();
-        clock.innerHTML = `${hour<10 ? `0${hour}`:hour} : ${minutes<10 ? `0${minutes}`:minutes} : ${seconds<10 ? `0${seconds}`:seconds}`
+
+        // 시, 분, 초를 시계 출력에 표시합니다.
+        clockElement.innerHTML = this.formatTime(hour, minutes, seconds);
     },
 
-    //배터리 잔량을 표시하는 메서드
-    updateBattery: function() {
+    updateBatteryLevel() {
         batteryElement.innerHTML = `배터리 : ${this.batteryLevel}%`;
         this.batteryLevel -= 1;
-        if (this.batteryLevel == -1) {
-            onecolor.style.backgroundColor = "bisque";
-            timecolor.style.backgroundColor = "black";
-            clearInterval(batteryInterval);
-            alert("배터리가 모두 소진되었습니다.")
-        }
         if (this.batteryLevel == 79) {
-            fivecolor.style.backgroundColor = "bisque";
+            colors.five.style.backgroundColor = "bisque";
         }
         if (this.batteryLevel == 59) {
-            fourcolor.style.backgroundColor = "bisque";
+            colors.four.style.backgroundColor = "bisque";
         }
         if (this.batteryLevel == 39) {
-            threecolor.style.backgroundColor = "bisque";
+            colors.three.style.backgroundColor = "bisque";
         }
         if (this.batteryLevel == 19) {
-            twocolor.style.backgroundColor = "bisque";
+            colors.two.style.backgroundColor = "bisque";
+        }
+        if (this.batteryLevel === -1) {
+            colors.one.style.backgroundColor = "bisque";
+            timeBGColor.style.backgroundColor = "black";
+            clearInterval(this.batteryInterval);
+            alert("배터리가 모두 소진되었습니다.");
         }
     },
 
-    //알람을 추가하는 메서드
-    addAlarm: function() {
-        if (count >= 3) {
+    addAlarm() {
+        // 알람을 추가하는 동작을 처리합니다.
+        if (this.alarmsCount >= 3) {
             alert("알림은 3개까지만 추가 가능합니다.");
             return;
         }
-        const alarmhours = alarmhour.value;
-        const alarmminutes = alarmminute.value;
-        const alarmseconds = alarmsecond.value;
 
-        if (alarmhours && alarmminutes && alarmseconds) {
+        const alarmHour = alarmHourInput.value;
+        const alarmMinute = alarmMinuteInput.value;
+        const alarmSecond = alarmSecondInput.value;
+
+        if (alarmHour && alarmMinute && alarmSecond) {
             const listItem = document.createElement("li");
-            listItem.innerHTML = `${alarmhours<10 ? `0${alarmhours}`:alarmhours} : ${alarmminutes<10 ? `0${alarmminutes}`:alarmminutes} : ${alarmseconds<10 ? `0${alarmseconds}`:alarmseconds}`;
+            listItem.innerHTML = this.formatTime(alarmHour, alarmMinute, alarmSecond);
             alarmsList.appendChild(listItem);
-            count += 1;
+            this.alarmsCount += 1;
         }
     },
 
-    init: function() {
-        setInterval(this.getTime.bind(this), 1000);
-        setInterval(this.updateBattery.bind(this), 1000);
-        addAlarmBtn.addEventListener("click", this.addAlarm.bind(this));
-    }
-};
+    formatTime(hour, minutes, seconds) {
+        // 시간을 포맷팅하여 문자열로 반환합니다.
+        return `${hour < 10 ? `0${hour}` : hour} : ${minutes < 10 ? `0${minutes}` : minutes} : ${seconds < 10 ? `0${seconds}` : seconds}`;
+    },
 
-Alarm.init();
+    init() {
+        // 초기화 함수로써, 시간과 배터리 레벨을 업데이트하고, 알람 추가 버튼의 클릭 이벤트를 처리합니다.
+        this.alarmsCount = 0;
+        setInterval(this.getTime.bind(this), 1000);
+        this.batteryInterval = setInterval(this.updateBatteryLevel.bind(this), 1000);
+        addAlarmBtn.addEventListener("click", this.addAlarm.bind(this));
+    },
+};
+    
+Alarm.init(); // 알람 객체 초기화를 호출합니다.
 
 
